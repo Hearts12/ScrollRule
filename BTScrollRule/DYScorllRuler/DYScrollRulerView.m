@@ -144,8 +144,8 @@
 /***************DY************分************割************线***********/
 @interface DYFooterRulerView : UIView
 
-@property(nonatomic, assign) int        maxValue;
-@property(nonatomic, copy)   NSString   *unit;
+@property(nonatomic,assign)int maxValue;
+@property(nonatomic,  copy)NSString *unit;
 @end
 @implementation DYFooterRulerView
 
@@ -175,18 +175,18 @@
 
 @interface DYScrollRulerView()<UIScrollViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property(nonatomic, strong) UITextField     *valueTF;
-@property(nonatomic, strong) UILabel         *unitLab;
-@property(nonatomic, strong) UICollectionView*collectionView;
-@property(nonatomic, strong) UIImageView     *redLine;
-@property(nonatomic, strong) DYTriangleView  *triangle;
-@property(nonatomic, assign) CGFloat         realValue;
-@property(nonatomic, copy  ) NSString        *unit;     //单位
-@property(nonatomic, assign) CGFloat         stepNum;   //分多少个区
-@property(nonatomic, assign) CGFloat         minValue;  //游标的最小值
-@property(nonatomic, assign) CGFloat         maxValue;  //游标的最大值
-@property(nonatomic, assign) CGFloat         step;      //间隔值，每两条相隔多少值
-@property(nonatomic, assign) NSInteger       betweenNum;
+@property(nonatomic, strong)UITextField     *valueTF;
+@property(nonatomic, strong)UILabel         *unitLab;
+@property(nonatomic, strong)UICollectionView*collectionView;
+@property(nonatomic, strong)UIImageView     *redLine;
+@property(nonatomic, strong)DYTriangleView  *triangle;
+@property(nonatomic, assign)float           realValue;
+@property(nonatomic, copy  )NSString        *unit;//单位
+@property(nonatomic, assign)float           stepNum;//分多少个区
+@property(nonatomic, assign)float           minValue;//游标的最小值
+@property(nonatomic, assign)float           maxValue;//游标的最大值
+@property(nonatomic, assign)float           step;//间隔值，每两条相隔多少值
+@property(nonatomic, assign)NSInteger       betweenNum;
 @end
 @implementation DYScrollRulerView
 
@@ -205,7 +205,6 @@
 
         [self addSubview:self.valueTF];
         [self addSubview:self.unitLab];
-        //注意：这里应该先添加collectionView，在添加triangle，这样triangle才可以显示出来
         [self addSubview:self.collectionView];
         [self addSubview:self.triangle];
         self.unitLab.text = _unit;
@@ -227,14 +226,11 @@
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         [flowLayout setSectionInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_valueTF.frame), self.bounds.size.width, CollectionHeight) collectionViewLayout:flowLayout];
-        
         _collectionView.bounces         = NO;
         _collectionView.showsHorizontalScrollIndicator  = NO;
         _collectionView.showsVerticalScrollIndicator    = NO;
-        
         _collectionView.dataSource      = self;
         _collectionView.delegate        = self;
-        
         _collectionView.contentSize     = CGSizeMake(_stepNum*_step+ScreenWidth/2, CollectionHeight);
         
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"headCell"];
@@ -302,7 +298,6 @@
     }
 }
 -(void)didChangeValue{
-    
     float textFieldValue = [_valueTF.text floatValue];
     if ((textFieldValue-_minValue)>=0) {
         [self setRealValue:(textFieldValue-_minValue)/(float)_step animated:YES];
@@ -398,8 +393,8 @@
         }
     }
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(dyScrollRulerView:valueChange:)]) {
-        [self.delegate dyScrollRulerView:self valueChange:totalValue];
+    if ([_delegate respondsToSelector:@selector(dyScrollRulerView:valueChange:)]) {
+        [_delegate dyScrollRulerView:self valueChange:[_valueTF.text floatValue]];
     }
 }
 
