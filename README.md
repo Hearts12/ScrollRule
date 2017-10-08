@@ -1,6 +1,9 @@
 # ScrollRule
 使用Objective-C实现的可滑动选择的尺子
 
+---
+
+### 项目地址[github](https://github.com/Hearts12/ScrollRule.git)
 
 ---
 

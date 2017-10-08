@@ -77,7 +77,7 @@
     CGFloat startX = 0;
     CGFloat lineCenterX = RulerGap;
     CGFloat shortLineY  = rect.size.height - RulerLong;
-    CGFloat longLineY = rect.size.height -RulerShort;
+    CGFloat longLineY = rect.size.height - RulerShort;
     CGFloat topY = 0;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
